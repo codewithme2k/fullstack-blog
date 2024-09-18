@@ -13,30 +13,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
+enum EUserRole {
   ADMIN
   USER
   MANAGER
 }
 
-enum CourseStatus {
+enum ECourseStatus {
   PENDING
   APPROVED
   REJECTED
 }
 
-enum CourseLevel {
+enum ECourseLevel {
   EASY
   MEDIUM
   EXPERT
 }
 
-enum CourseLabel {
+enum ECourseLabel {
   NONE
   // Add other label values here
 }
 
-enum CommentStatus {
+enum ECommentStatus {
   PENDING
   APPROVED
   REJECTED
@@ -44,13 +44,13 @@ enum CommentStatus {
 
 model User {
   id                      String                 @id @default(uuid())
-  clerkId                 String
+  clerkId                 String?
   name                    String?
   email                   String?                @unique
   emailVerified           DateTime?
   image                   String?
   password                String?
-  role                    UserRole               @default(USER)
+  role                    EUserRole              @default(USER)
   accounts                Account[]
   isTwoFactorEnabled      Boolean                @default(false)
   twoFactorConfirmation   TwoFactorConfirmation?
@@ -138,33 +138,33 @@ model Level {
 }
 
 model Course {
-  id          String       @id @default(uuid())
+  id          String        @id @default(uuid())
   title       String
-  slug        String       @unique
-  price       Float        @default(0)
-  salePrice   Float        @default(0)
-  desc        String       @db.Text
-  content     String       @db.Text
-  image       String       @default("/default.jpg")
-  intro       String       @db.Text
-  status      CourseStatus @default(PENDING)
-  level       CourseLevel  @default(EASY)
-  label       CourseLabel  @default(NONE)
+  slug        String        @unique
+  price       Float         @default(0)
+  salePrice   Float         @default(0)
+  desc        String        @db.Text
+  content     String        @db.Text
+  image       String        @default("/default.jpg")
+  intro       String        @db.Text
+  status      ECourseStatus @default(PENDING)
+  level       ECourseLevel  @default(EASY)
+  label       ECourseLabel  @default(NONE)
   categoryId  String?
-  category    Category?    @relation(fields: [categoryId], references: [id])
+  category    Category?     @relation(fields: [categoryId], references: [id])
   info        Json
   lectures    Lecture[]
   lessons     Lesson[]
   comments    Comment[]
   authorId    String
-  author      User         @relation(fields: [authorId], references: [id])
-  views       Int          @default(0)
-  cta         String       @default("Mua ngay")
+  author      User          @relation(fields: [authorId], references: [id])
+  views       Int           @default(0)
+  cta         String        @default("Mua ngay")
   ctaLink     String?
-  createdAt   DateTime     @default(now())
+  createdAt   DateTime      @default(now())
   seoKeywords String?
-  free        Boolean      @default(false)
-  isDestroyed Boolean      @default(false) @map("_destroy")
+  free        Boolean       @default(false)
+  isDestroyed Boolean       @default(false) @map("_destroy")
 
   @@index([categoryId])
   @@index([authorId])
@@ -208,19 +208,19 @@ model Lesson {
 }
 
 model Comment {
-  id        String        @id @default(uuid())
-  content   String        @db.Text
+  id        String         @id @default(uuid())
+  content   String         @db.Text
   userId    String
-  user      User          @relation(fields: [userId], references: [id])
+  user      User           @relation(fields: [userId], references: [id])
   courseId  String
-  course    Course        @relation(fields: [courseId], references: [id])
+  course    Course         @relation(fields: [courseId], references: [id])
   lessonId  String
-  lesson    Lesson        @relation(fields: [lessonId], references: [id])
-  status    CommentStatus @default(PENDING)
+  lesson    Lesson         @relation(fields: [lessonId], references: [id])
+  status    ECommentStatus @default(PENDING)
   parentId  String?
-  parent    Comment?      @relation("CommentToComment", fields: [parentId], references: [id])
-  replies   Comment[]     @relation("CommentToComment")
-  createdAt DateTime      @default(now())
+  parent    Comment?       @relation("CommentToComment", fields: [parentId], references: [id])
+  replies   Comment[]      @relation("CommentToComment")
+  createdAt DateTime       @default(now())
 
   @@index([userId])
   @@index([courseId])

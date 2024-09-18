@@ -4,10 +4,10 @@ import { BeatLoader } from "react-spinners";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
-import { newVerification } from "@/actions/new-verification";
+import { newVerification } from "@/lib/actions/new-verification";
 import CardWrapper from "@/components/auth/card-wrapper";
-import { FormError } from "@/components/form-error";
-import { FormSucess } from "@/components/form-sucess";
+import { FormError } from "@/components/forms/form-error";
+import { FormSucess } from "@/components/forms/form-sucess";
 
 const NewVerificationForm = () => {
   const [error, setError] = useState<string | undefined>();
