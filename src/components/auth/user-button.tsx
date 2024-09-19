@@ -2,8 +2,6 @@
 import { FaUser } from "react-icons/fa";
 import { ExitIcon } from "@radix-ui/react-icons";
 
-import { useCurrentUser } from "@/hooks/use-current-user";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +10,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { UseCurrentUser } from "@/hooks/use-current-user";
 
 export const UserButton = () => {
-  const user = useCurrentUser();
+  const user = UseCurrentUser();
 
   return (
     <DropdownMenu>

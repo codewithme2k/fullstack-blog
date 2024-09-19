@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { NewPasswordSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/components/forms/schemas";
 
 import {
   Form,
@@ -19,10 +19,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CardWrapper from "@/components/auth/card-wrapper";
-import { FormError } from "@/components/form-error";
-import { FormSucess } from "@/components/form-sucess";
+import { FormError } from "@/components/forms/form-error";
+import { FormSucess } from "@/components/forms/form-sucess";
 
-import { newPassword } from "@/actions/new-password";
+import { newPassword } from "@/lib/actions/new-password";
 
 const NewPasswordForm = () => {
   const [error, setError] = useState<string | undefined>("");
